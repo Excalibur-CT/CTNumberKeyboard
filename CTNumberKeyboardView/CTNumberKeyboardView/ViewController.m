@@ -32,7 +32,7 @@
     [keyboard setKeyboardInputBlock:^(CTKeyboardInputType type, NSString * inputText){
         NSLog(@"-- %@\n", inputText);
         if ([self.inputTF isFirstResponder]) {
-            [weakSelf.inputTF inputText:inputText limit:0];
+            [weakSelf.inputTF inputInsetBlankText:inputText limit:20];
         }else if ([self.input2TF isFirstResponder]) {
             [weakSelf.input2TF inputText:inputText limit:0];
         }else {
@@ -54,7 +54,14 @@
     self.input3TF.inputView = keyboard;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:kTextFieldInputDidChangeNotification object:nil];
+}
 
+- (void)textDidChange:(NSNotification *)notification
+{
+    UITextField * tf = notification.object;
+    NSLog(@"%s %@", __func__, tf.text);
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification

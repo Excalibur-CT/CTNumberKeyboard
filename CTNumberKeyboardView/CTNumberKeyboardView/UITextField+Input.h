@@ -22,4 +22,13 @@ UIKIT_EXTERN NSNotificationName const kTextFieldInputDidChangeNotification;
  */
 - (void)inputText:(NSString *)text limit:(NSInteger)limit;
 
+/*
+ *  通过自定义键盘输入内容并每四位添加一个空格
+ *
+ *  @param  text  输入的内容
+ *  @param  limit 限制输入长度 (0: 不限制)
+ */
+- (void)inputInsetBlankText:(NSString *)text limit:(NSInteger)limit;
+
+
 @end
