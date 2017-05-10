@@ -86,11 +86,7 @@ UIImage * ct_imageWithColor(UIColor * color)
     return theImage;
 }
 
-
-
 @end
-
-
 
 @interface CTNumberKeyboardView ()
 
@@ -157,14 +153,6 @@ UIImage * ct_imageWithColor(UIColor * color)
     for (int i = 0; i < CTKeyboardNumberKeyCount; i++)
     {
         CTKeyBoardButton *button = [CTKeyBoardButton boardButtonWithFrame:CGRectMake(keyX, keyY, keyWidth, keyHeight)];
-        [self addSubview:button];
-        __weak typeof(self) weakSelf = self;
-        [button setBlock:^(CTKeyboardInputType buttonType, NSString *text) {
-            if (weakSelf.keyboardInputBlock) {
-                weakSelf.keyboardInputBlock(buttonType, text);
-            }
-        }];
-        [array addObject:button];
         if (i == CTKeyboardNumberDelIndex) {
             button.titleLabel.font = [UIFont systemFontOfSize:20];
             button.type = CTKeyboardInputDelete;
@@ -173,6 +161,15 @@ UIImage * ct_imageWithColor(UIColor * color)
         } else {
             button.type = CTKeyboardInputNumber;
         }
+        __weak typeof(self) weakSelf = self;
+        [button setBlock:^(CTKeyboardInputType buttonType, NSString *text) {
+            if (buttonType != CTKeyboardInputDone && weakSelf.keyboardInputBlock) {
+                weakSelf.keyboardInputBlock(buttonType, text);
+            }
+        }];
+        [self addSubview:button];
+        [array addObject:button];
+      
 
         keyX += keyWidth;
         
